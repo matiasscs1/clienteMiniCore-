@@ -10,13 +10,12 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<h1>Home page</h1>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/add-user" element={<h1>agregar usuario</h1>} />
           <Route path="/profile" element={<h1>perfil</h1>} />
           <Route path="/user/:id" element={<h1>actualizar usuario</h1>} />
-          <Route path="/minicore" element={<StudentPage />} />
+          <Route path="/" element={<StudentPage />} />
           
 
 
