@@ -11,15 +11,11 @@ export const calificacionesPost = async (startDate1, endDate1, weight1, startDat
         const body =
         {
             "periods": [
-                { "dateA": "2024-01-15", "dateB": "2024-07-15", "weight": weight1 },
-                { "dateA": "2024-08-15", "dateB": "2024-12-15", "weight": weight2 }
+                { "dateA": startDate1, "dateB": endDate1, "weight": weight1 },
+                { "dateA": startDate2, "dateB": endDate2, "weight": weight2 }
             ]
         };
         const response = await axios.post(`${API}/compute`, body);
-        console.log("sar")   
-        console.log(response.data);
-        console.log(response.data);
-        console.log(response.data);
         console.log(response.data);
         return response.data;
     } catch (error) {

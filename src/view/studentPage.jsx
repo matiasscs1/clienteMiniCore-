@@ -100,7 +100,7 @@ export function StudentPage() {
 
 
 
-            <h3>Progress History:</h3>
+        
 
             {response && (
                 <div className="response-container">
@@ -139,7 +139,7 @@ export function StudentPage() {
                                             {student.name}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {student.grade[0]}
+                                            {student.grade}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {student.p1}
