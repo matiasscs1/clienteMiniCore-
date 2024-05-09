@@ -1,23 +1,27 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import RegisterPage from './view/RegisterPage.jsx';
+import HomePage from './view/homePage.jsx';
+import Admin from './view/Admin.jsx';
 import LoginPage from './view/LoginPage.jsx';
+import LoginPageAdmin from './view/LoginPageAdmin';
 import { AuthProvider } from './controller/AuthContext.jsx';
-import { StudentPage } from './view/studentPage.jsx'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
     <AuthProvider>
+      <ToastContainer />
       <BrowserRouter>
         <Routes>
+          <Route path="/login-admin" element={<LoginPageAdmin />} />
+          <Route path="/admin-page" element={<Admin />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/add-user" element={<h1>agregar usuario</h1>} />
-          <Route path="/profile" element={<h1>perfil</h1>} />
-          <Route path="/user/:id" element={<h1>actualizar usuario</h1>} />
-          <Route path="/" element={<StudentPage />} />
-          
-
+          <Route path="/profile" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
 
         </Routes>
       </BrowserRouter>

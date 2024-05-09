@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.bg-indigo-600 {
+    background-color: #67C6E3;
+}
+
+.text-indigo-600{
+    color: #67C6E3;
+}
+

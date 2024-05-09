@@ -38,14 +38,22 @@ export const AuthProvider = ({ children }) => {
             window.alert('El usuario o la contraseña son incorrectos');
         }
     }
-
-
-
-
+    const signinAdmin = async (email, contrasenia) => {
+      try {
+          if(email === 'admin@hotmail.com' && contrasenia === 'admin1234') {
+              setIsAuthenticated(true);
+          }else{
+            return false;
+          }
+      } catch (error) {
+          console.error('Error en el servidor:', error);
+      }
+  };
+  
     return (
         <AuthContext.Provider
             value={
-                { signup, signin, user, isAuthenticated, errors }}>
+                { signup, signin, user, isAuthenticated, errors, signinAdmin }}>
             {children}
         </AuthContext.Provider>
     )

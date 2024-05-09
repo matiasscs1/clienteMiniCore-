@@ -2,8 +2,10 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '../controller/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+
 import fotoDoctor from './fotos/foto-doctor.png';
 import logo from './fotos/logoPapaAilyn.png';
+import { toast } from 'react-toastify';
 
 
 /*
@@ -20,20 +22,28 @@ import logo from './fotos/logoPapaAilyn.png';
   }
   ```
 */
-export function LoginPage() {
+export function LoginPageAdmin() {
     const { register, handleSubmit } = useForm();
-    const { signin, isAuthenticated } = useAuth();
+    const { signinAdmin, isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isAuthenticated) navigate('/profile');
+        if (isAuthenticated) 
+            navigate('/admin-page')
+   
     }, [isAuthenticated]);
 
-    const onSubmit = handleSubmit((data) => {
-        signin(data);
+    const onSubmit = handleSubmit(async (data) => {
+        const { email, password } = data; // Obtener el correo electrónico y la contraseña del objeto data
+        const result = await signinAdmin(email, password); // Esperar a que signinAdmin se resuelva y obtenga el resultado
+        if(!result){
+            toast.error('El usuario o la contraseña son incorrectos');
+        }
     });
 
+
     return (
+
         <>
             {/*
               This example requires updating your template:
@@ -44,6 +54,7 @@ export function LoginPage() {
               ```
             */}
             <div className="flex min-h-full flex-1">
+
                 <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
                     <div className="mx-auto w-full max-w-sm lg:w-96">
                         <div>
@@ -53,14 +64,14 @@ export function LoginPage() {
                                 alt="Your Company"
                             />
                             <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                                Inicio de Sesion 
+                                Inicio de Sesion Admin
                             </h2>
-                            
+
                         </div>
 
                         <div className="mt-10">
                             <div>
-                                <form  onSubmit={onSubmit} method="POST" className="space-y-6">
+                                <form onSubmit={onSubmit} method="POST" className="space-y-6">
                                     <div>
                                         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                             Correo Electronico
@@ -202,4 +213,4 @@ export function LoginPage() {
 }
 
 
-export default LoginPage;
+export default LoginPageAdmin;
