@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ReactApexChart from 'react-apexcharts';
 import { mesRegistroDoctores } from "../../controller/Doctor_controller";
 
+import ReactApexCharts from 'react-apexcharts';
 
 export function Estadisticas() {
   const [chartState, setChartState] = useState({
@@ -102,7 +102,7 @@ export function Estadisticas() {
 
   return (
     <div id="chart">
-      <ReactApexChart options={chartState.options} series={chartState.series} type="bar" height={350} />
+      <ReactApexCharts options={chartState.options} series={chartState.series} type="bar" height={350} />
     </div>
   );
 }
