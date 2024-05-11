@@ -15,11 +15,11 @@ export const ObterPacientes = async (): Promise<{ data: Paciente[] | null; error
 
 export async function ObterPacientes_idDocotor(id_doctor): Promise<{ data: Paciente[] | null; error: string | null }> {
     try {
-        const response = await axios.get<Paciente[]>(`http://localhost:3000/user/${id_doctor}`); // hacerle por id_doctor
+        const response = await axios.get<Paciente[]>(`http://localhost:3000/user/${id_doctor}`);
         return { data: response.data, error: null };
     } catch (error) {
-        console.error('Error al obtener los doctores:', error);
-        return { data: null, error: 'Hubo un error al obtener los doctores.' };
+        console.error('Error al obtener los pacientes:', error);
+        return { data: null, error: 'Hubo un error al obtener los pacientes.' };
     }
 }
 

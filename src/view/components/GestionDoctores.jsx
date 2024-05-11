@@ -1,5 +1,5 @@
-import { obtenerDoctores, eliminarDoctores } from "../../controller/Doctor_controller";
-import React, { useState, useEffect  } from 'react';
+import { obtenerDoctores, eliminarDoctores, actualizarDoctor, obtenerDoctorPorId } from "../../controller/Doctor_controller";
+import React, { useState, useEffect } from 'react';
 import { EnvelopeIcon } from '@heroicons/react/20/solid'
 import { set, useForm } from 'react-hook-form';
 import { toast } from "react-toastify";
@@ -13,11 +13,21 @@ export function GestionDoctores() {
   const [doctores, setDoctores] = useState([]);
   const { register, handleSubmit, reset } = useForm();
   const [open, setOpen] = useState(false);
+  ////
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
 
 
-  const abrirModal = () => {
-      setOpen(true);
-  }
+
+
+
+
+
+
+  const abrirModal = (doctor) => {
+    setSelectedDoctor(doctor);
+    setOpen(true);
+  };
+
 
 
 
@@ -54,6 +64,32 @@ export function GestionDoctores() {
 
     } catch (error) {
       console.error('Error al eliminar el doctor:', error);
+    }
+  });
+
+  // para actualizar los doctores
+
+
+  const onSubmitUpdate = handleSubmit(async (data) => {
+    try {
+      data._id = selectedDoctor._id;
+      console.log(data);
+      const validar = await actualizarDoctor(data, selectedDoctor._id);
+      if (!validar) {
+        toast.error('Erro al actualizar existen datos que estan repetidos en el sistema');
+        reset();
+      } else {
+        // Después de actualizar, actualiza la lista de doctores
+        const updatedDoctores = await obtenerDoctores();
+        if (updatedDoctores.error) {
+          console.error(updatedDoctores.error);
+        } else {
+          setDoctores(updatedDoctores.data);
+          reset();
+        }
+      }
+    } catch (error) {
+      console.error('Error al actualizar el doctor:', error);
     }
   });
 
@@ -173,7 +209,7 @@ export function GestionDoctores() {
                       <div className="mt-1 text-gray-500">{person.genero}</div>
                     </td>
                     <td className="relative whitespace-nowrap py-5 pl-3 pr-3 text-right text-sm font-medium sm:pr-0">
-                      <a onClick={abrirModal} className="text-indigo-600 hover:text-indigo-900">
+                      <a onClick={() => abrirModal(person)} className="text-indigo-600 hover:text-indigo-900">
                         Edit<span className="sr-only">, {person._id}</span>
                       </a>
 
@@ -208,30 +244,183 @@ export function GestionDoctores() {
                       leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
                       <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-                        <div>
-                          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                            <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
-                          </div>
-                          <div className="mt-3 text-center sm:mt-5">
-                            <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                              Payment successful
-                            </Dialog.Title>
-                            <div className="mt-2">
-                              <p className="text-sm text-gray-500">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur amet labore.
-                              </p>
+                        <form onSubmit={onSubmitUpdate}>
+                          <div >
+                            <h2 className="text-base font-semibold leading-7 text-gray-900">Editar la informacion de un doctor</h2>
+                            <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-600">
+                              Ingrese la informacion donde quiere editar
+                            </p>
+
+                            <div className="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
+
+                              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+                                <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                                  Nombre
+                                </label>
+                                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                                  <input
+                                    {...register("nombre")}
+                                    type="text"
+                                    name="nombre"
+                                    id="nombre"
+                                    autoComplete="given-name"
+                                    defaultValue={selectedDoctor ? selectedDoctor.nombre : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+                                <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                                  Apellido
+                                </label>
+                                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                                  <input
+                                    {...register("apellido")}
+                                    type="text"
+                                    name="apellido"
+                                    id="apellido"
+                                    autoComplete="family-name"
+                                    defaultValue={selectedDoctor ? selectedDoctor.apellido : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+                                <label htmlFor="especialidad" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                                  Especialidad
+                                </label>
+                                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                                  <input
+                                    {...register("especialidad")}
+                                    id="especialidad"
+                                    name="especialidad"
+                                    type="especialidad"
+                                    defaultValue={selectedDoctor ? selectedDoctor.especialidad : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+                                <label htmlFor="telefono" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                                  Teléfono Celular
+                                </label>
+                                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                                  <input
+                                    {...register("telefono")}
+                                    id="telefono"
+                                    name="telefono"
+                                    type="telefono"
+                                    autoComplete="telefono"
+                                    defaultValue={selectedDoctor ? selectedDoctor.telefono : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+                                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                                  Correo Electrónico
+                                </label>
+                                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                                  <input
+                                    {...register("email")}
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
+                                    defaultValue={selectedDoctor ? selectedDoctor.email : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+                                <label htmlFor="direccion" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                                  Dirección del Consultorio
+                                </label>
+                                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                                  <input
+                                    {...register("direccion")}
+                                    id="direccion"
+                                    name="direccion"
+                                    type="text"
+                                    autoComplete="direccion"
+                                    defaultValue={selectedDoctor ? selectedDoctor.direccion_Consultorio : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+                                <label htmlFor="ciudad" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                                  Ciudad
+                                </label>
+                                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                                  <input
+                                    {...register("ciudad")}
+                                    id="ciudad"
+                                    name="ciudad"
+                                    type="text"
+                                    autoComplete="ciudad"
+                                    defaultValue={selectedDoctor ? selectedDoctor.ciudad : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+                                <label htmlFor="genero" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                                  Género
+                                </label>
+                                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                                  <input
+                                    {...register("genero")}
+                                    id="genero"
+                                    name="genero"
+                                    type="text"
+                                    autoComplete="genero"
+                                    defaultValue={selectedDoctor ? selectedDoctor.genero : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+                                <label htmlFor="matricula" className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">
+                                  Número de Matrícula Médica
+                                </label>
+                                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                                  <input
+                                    {...register("matricula")}
+                                    id="matricula"
+                                    name="matricula"
+                                    type="text"
+                                    autoComplete="matricula"
+                                    defaultValue={selectedDoctor ? selectedDoctor.Número_de_matriculaMedica : ""}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+
+
                             </div>
                           </div>
-                        </div>
-                        <div className="mt-5 sm:mt-6">
-                          <button
-                            type="button"
-                            className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            onClick={() => setOpen(false)}
-                          >
-                            Go back to dashboard
-                          </button>
-                        </div>
+                          <div className="mt-5 sm:mt-6">
+                            <button
+                              type="submit"
+                              className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              onClick={() => setOpen(false)}
+                            >
+                              Editar
+                            </button>
+                          </div>
+
+
+                        </form>
                       </Dialog.Panel>
                     </Transition.Child>
                   </div>

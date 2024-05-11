@@ -26,6 +26,18 @@ export async function eliminarDoctores(email: string): Promise<boolean> {
         return false;
     }
 }
+// obtetener docto por id 
+export async function obtenerDoctorPorId(_id: string): Promise<DoctorModel | null> {
+    try {
+        const url = `http://localhost:3000/doctors/${_id}`;
+        const response = await axios.get<DoctorModel>(url);
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener el doctor por ID:', error);
+        return null;
+    }
+}
+
 
 export const mesRegistroDoctores = async () => {
     try {
@@ -49,6 +61,21 @@ export const mesRegistroDoctores = async () => {
     } catch (error) {
         console.error('Error al obtener los doctores:', error);
         return null; // Retorna null si hay un error
+    }
+}
+
+export async function actualizarDoctor(doctor: DoctorModel, _id: String): Promise<boolean> {
+    try {
+        const url = `http://localhost:3000/doctors/${_id}`;
+        await axios.put(url, doctor);
+        return true;
+    } catch (error) {
+        if (error.response.status === 404 || error.response.status === 500) {
+            console.log('Datos ya registrados en el sistema, no se puede repetir');
+        } else {
+            console.log('Ocurrió un error al eliminar el paciente:', error);
+        }
+        return false;
     }
 }
 
