@@ -28,7 +28,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { GestionDoctores } from './components/GestionDoctores'
-import { Estadisticas } from './components/Estadisticas'
+//import { Estadisticas } from './components/Estadisticas'
 import { GestionPaciente } from './components/GestionPaciente'
 import { useNavigate } from 'react-router-dom';
 
@@ -59,7 +59,7 @@ export default function Admin() {
 
   const componentes = [
     <GestionDoctores />,
-    <Estadisticas />,
+    //<Estadisticas />,
     <GestionPaciente />
   ];
 

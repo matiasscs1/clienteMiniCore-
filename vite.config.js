@@ -5,10 +5,5 @@ export default defineConfig({
   plugins: [
     react(),
     // Otros plugins si los tienes
-  ],
-  build: {
-    rollupOptions: {
-      external: ['react-apexcharts'] // Si necesitas externalizar algún módulo
-    }
-  }
+  ]
 });
