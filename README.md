@@ -1,8 +1,36 @@
-# React + Vite
+# Nombre del Proyecto
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Breve descripción o introducción del proyecto.
 
-Currently, two official plugins are available:
+## Descripción
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+En este proyecto, hemos desarrollado una aplicación web utilizando React junto con Vite como herramienta de construcción. La aplicación proporciona un sistema de gestión médica con funcionalidades de inicio de sesión, gestión de doctores, estadísticas y gestión de pacientes.
+
+## Características
+
+- Inicio de sesión con credenciales por defecto.
+- Validación de usuarios.
+- Notificaciones mediante Toast Notify.
+- Dashboard con 4 componentes principales:
+  - Gestión de Doctores: CRUD para visualizar, eliminar y editar doctores.
+  - Estadísticas: Visualización de estadísticas de pacientes, incluyendo pacientes por doctor, pacientes en general y eliminación por cédula.
+  - Gestión de Pacientes: CRUD para visualizar, eliminar y editar pacientes.
+
+## Tecnologías Utilizadas
+
+- React
+- Vite
+- React Router
+- @vitejs/plugin-react
+- @vitejs/plugin-react-swc
+
+
+
+## Uso
+link de mi video en youtube si el otro no sirve: https://youtu.be/lcyilk_YZ88
+
+
+## Contacto
+
+matias.cedeno@udla.edu.ec
+
