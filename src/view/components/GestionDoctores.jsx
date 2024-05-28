@@ -16,19 +16,10 @@ export function GestionDoctores() {
   ////
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
-
-
-
-
-
-
-
   const abrirModal = (doctor) => {
     setSelectedDoctor(doctor);
     setOpen(true);
   };
-
-
 
 
   useEffect(() => {

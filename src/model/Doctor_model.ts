@@ -11,7 +11,6 @@ export interface DoctorModel {
     genero: string;
     password: string;
     Número_de_matriculaMedica: string;
-
     Fecha_de_Registro: Date;
 
 

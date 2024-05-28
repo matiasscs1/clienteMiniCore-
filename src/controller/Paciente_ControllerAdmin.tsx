@@ -1,6 +1,30 @@
 import { Paciente } from '../model/Paciente_Model.ts';
 import axios from 'axios';
 
+// agregar pacientes
+export const crearPacientes = async (paciente: Paciente): Promise<boolean> => {
+    try {
+        const response = await axios.post('http://localhost:3000/user', {
+            id_doctor: paciente.id_doctor,
+            nombres: paciente.nombres,
+            apellidos: paciente.apellidos,
+            email: paciente.email,
+            cedula: paciente.cedula,
+            edad: paciente.edad,
+            contacto_emergencia: paciente.contacto_emergencia,
+            motivo_consulta: paciente.motivo_consulta,
+            sintomas: Array.isArray(paciente.sintomas) ? paciente.sintomas : [paciente.sintomas],
+            alergias: Array.isArray(paciente.alergias) ? paciente.alergias : [paciente.alergias],
+            diagnostico: paciente.diagnostico || '',
+            medicamentoAtomar: paciente.medicamentoAtomar || ''
+        });
+        return true;
+    } catch (error) {
+        console.error('Error al crear el paciente:', error);
+        return false;
+    }
+};
+
 
 export const ObterPacientes = async (): Promise<{ data: Paciente[] | null; error: string | null }> => {
     try {

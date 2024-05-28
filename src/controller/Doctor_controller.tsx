@@ -26,18 +26,21 @@ export async function eliminarDoctores(email: string): Promise<boolean> {
         return false;
     }
 }
-// obtetener docto por id 
+// obtetener doctor por id 
 export async function obtenerDoctorPorId(_id: string): Promise<DoctorModel | null> {
     try {
         const url = `http://localhost:3000/doctors/${_id}`;
-        const response = await axios.get<DoctorModel>(url);
+        const response = await axios.get<DoctorModel>(url, {
+            headers: {
+                'Cache-Control': 'no-cache', // Desactiva la caché para esta solicitud
+            },
+        });
         return response.data;
     } catch (error) {
         console.error('Error al obtener el doctor por ID:', error);
         return null;
     }
 }
-
 
 export const mesRegistroDoctores = async () => {
     try {

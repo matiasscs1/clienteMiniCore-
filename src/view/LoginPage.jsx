@@ -3,7 +3,10 @@ import { useAuth } from '../controller/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import fotoDoctor from './fotos/foto-doctor.png';
+
 import logo from './fotos/logoPapaAilyn.png';
+import { toast } from 'react-toastify';
+
 
 
 /*
@@ -25,13 +28,24 @@ export function LoginPage() {
     const { signin, isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (isAuthenticated) navigate('/profile');
-    }, [isAuthenticated]);
+
 
     const onSubmit = handleSubmit((data) => {
         signin(data);
+        if(!isAuthenticated){
+            toast.error('El usuario o la contraseña son incorrectos');
+        }else{
+            toast.success('Inicio de sesion exitoso');
+        }
     });
+    useEffect(() => {
+
+        if (isAuthenticated) {
+            navigate('/profile');
+
+        } 
+
+    }, [isAuthenticated]);
 
     return (
         <>
@@ -53,14 +67,14 @@ export function LoginPage() {
                                 alt="Your Company"
                             />
                             <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                                Inicio de Sesion 
+                                Inicio de Sesion
                             </h2>
-                            
+
                         </div>
 
                         <div className="mt-10">
                             <div>
-                                <form  onSubmit={onSubmit} method="POST" className="space-y-6">
+                                <form onSubmit={onSubmit} method="POST" className="space-y-6">
                                     <div>
                                         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                             Correo Electronico
