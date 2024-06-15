@@ -10,5 +10,6 @@ export interface Paciente {
     sintomas?: string[];
     alergias?: string[];
     diagnostico: string;
-    medicamentoAtomar: string;
+    medicamentoAtomar: string[];
+    porcentajeCoincidencia: number;
 }

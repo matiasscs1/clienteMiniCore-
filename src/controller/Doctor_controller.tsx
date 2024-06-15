@@ -82,8 +82,35 @@ export async function actualizarDoctor(doctor: DoctorModel, _id: String): Promis
     }
 }
 
+export async function diagnostico(_id: String): Promise<boolean> {
+    try {
+        const url = `http://localhost:3000/diagnosticado/${_id}`;
+        await axios.post(url);
+        return true;
+    } catch (error) {
+        if (error.response.status === 404 || error.response.status === 500) {
+            console.log('Datos ya registrados en el sistema, no se puede repetir');
+        } else {
+            console.log('Ocurrió un error al eliminar el paciente:', error);
+        }
+        return false;
+    }
+}
 
-
+export async function guardarReceta(_id: String): Promise<boolean> {
+    try {
+        const url = `http://localhost:3000/receta/${_id}`;
+        await axios.get(url);
+        return true;
+    } catch (error) {
+        if (error.response.status === 404 || error.response.status === 500) {
+            console.log('Datos ya registrados en el sistema, no se puede repetir');
+        } else {
+            console.log('Ocurrió un error al eliminar el paciente:', error);
+        }
+        return false;
+    }
+}
 
 
 

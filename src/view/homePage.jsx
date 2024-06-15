@@ -30,13 +30,12 @@ import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import {PerfilDoctor} from './componentesDoctor/PerfilDoctor.jsx'
 import {AgregarPaciente} from './componentesDoctor/AgregarPaciente.jsx'
 import {DiagnosticoPaciente } from './componentesDoctor/DiagnosticoPaciente.jsx'
+import {RecetaPaciente} from './componentesDoctor/recetaPaciente.jsx'
 import { useNavigate } from 'react-router-dom';
 
 /*icon: UsersIcon, current: true*/
 
-const userNavigation = [
-  { name: 'Sign out', href: '#' }
-]
+
 
 
 export default function homePage() {
@@ -60,7 +59,8 @@ export default function homePage() {
   const componentes = [
     < PerfilDoctor />,
     <AgregarPaciente/>,
-    < DiagnosticoPaciente/>
+    < DiagnosticoPaciente/>,
+    <RecetaPaciente/>
   ];
 
   // Estado para almacenar el componente seleccionado
@@ -283,23 +283,7 @@ export default function homePage() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                      {userNavigation.map((item) => (
-                        <Menu.Item key={item.name}>
-                          {({ active }) => (
-                            <a
-                              href={item.href}
-                              className={classNames(
-                                active ? 'bg-gray-50' : '',
-                                'block px-3 py-1 text-sm leading-6 text-gray-900'
-                              )}
-                            >
-                              {item.name}
-                            </a>
-                          )}
-                        </Menu.Item>
-                      ))}
-                    </Menu.Items>
+                
                   </Transition>
                 </Menu>
               </div>

@@ -19,12 +19,12 @@ function App() {
         <Routes>
           
           <Route path="/admin-page" element={<Admin />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPageAdmin />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/" element={<LoginPageAdmin />} />
+          <Route path="/" element={<LoginPage />} />
           <Route element={<RutaProtegida/>}>
           <Route path="/profile" element={<HomePage />} />
-          </Route>
+          </Route>f
 
         </Routes>
       </BrowserRouter>
