@@ -6,6 +6,5 @@ export default defineConfig({
   plugins: [
     react(),
     commonjs(), // Añadir este plugin
-    // Otros plugins si los tienes
   ],
 });
