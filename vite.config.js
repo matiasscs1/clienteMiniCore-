@@ -5,5 +5,10 @@ export default defineConfig({
   plugins: [
     react(),
     // Otros plugins si los tienes
-  ]
+  ],
+  build: {
+    rollupOptions: {
+      external: ['jspdf'],
+    },
+  },
 });
