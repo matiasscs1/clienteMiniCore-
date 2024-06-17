@@ -9,7 +9,7 @@ function RegisterPage() {
     const { signup, isAuthenticated, errors: registerErrors } = useAuth();
     const navigate = useNavigate();
     useEffect(() => {
-        if (isAuthenticated) navigate('/login');
+        if (isAuthenticated) navigate('/');
     }, [isAuthenticated]);
     return (
         <div className='flex h-[calc(100vh-100px)] items-center justify-center'>
