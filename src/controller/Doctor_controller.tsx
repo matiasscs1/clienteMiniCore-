@@ -1,24 +1,23 @@
-import { DoctorModel } from '../model/Doctor_model.ts';
-import axios from 'axios';
+import { DoctorModel } from '../model/Doctor_model';
+import axios from '../model/axios.js'; 
 
 
 export const obtenerDoctores = async (): Promise<{ data: DoctorModel[] | null; error: string | null }> => {
     try {
-        const response = await axios.get<DoctorModel[]>('http://localhost:3000/doctors');
+        const response = await axios.get<DoctorModel[]>('/doctors');
         return { data: response.data, error: null };
-    
     } catch (error) {
         console.error('Error al obtener los doctores:', error);
         return { data: null, error: 'Hubo un error al obtener los doctores.' };
     }
 };
+
 export async function eliminarDoctores(email: string): Promise<boolean> {
     try {
-        const url = 'http://localhost:3000/doctors';
-        await axios.delete(url, { data: { email } }); // Envía el objeto JSON con el correo electrónico
+        await axios.delete('/doctors', { data: { email } }); // Envía el objeto JSON con el correo electrónico
         return true;
     } catch (error) {
-        if (error.response.status === 404) {
+        if (error.response?.status === 404) {
             console.log('No se encontró la cédula a eliminar');
         } else {
             console.log('Ocurrió un error al eliminar el paciente:', error);
@@ -26,11 +25,10 @@ export async function eliminarDoctores(email: string): Promise<boolean> {
         return false;
     }
 }
-// obtetener doctor por id 
+
 export async function obtenerDoctorPorId(_id: string): Promise<DoctorModel | null> {
     try {
-        const url = `http://localhost:3000/doctors/${_id}`;
-        const response = await axios.get<DoctorModel>(url, {
+        const response = await axios.get<DoctorModel>(`/doctors/${_id}`, {
             headers: {
                 'Cache-Control': 'no-cache', // Desactiva la caché para esta solicitud
             },
@@ -69,14 +67,13 @@ export const mesRegistroDoctores = async () => {
 
 export async function actualizarDoctor(doctor: DoctorModel, _id: String): Promise<boolean> {
     try {
-        const url = `http://localhost:3000/doctors/${_id}`;
-        await axios.put(url, doctor);
+        await axios.put(`/doctors/${_id}`, doctor);
         return true;
     } catch (error) {
-        if (error.response.status === 404 || error.response.status === 500) {
+        if (error.response?.status === 404 || error.response?.status === 500) {
             console.log('Datos ya registrados en el sistema, no se puede repetir');
         } else {
-            console.log('Ocurrió un error al eliminar el paciente:', error);
+            console.log('Ocurrió un error al actualizar el paciente:', error);
         }
         return false;
     }
@@ -84,14 +81,13 @@ export async function actualizarDoctor(doctor: DoctorModel, _id: String): Promis
 
 export async function diagnostico(_id: String): Promise<boolean> {
     try {
-        const url = `http://localhost:3000/diagnosticado/${_id}`;
-        await axios.post(url);
+        await axios.post(`/diagnosticado/${_id}`);
         return true;
     } catch (error) {
-        if (error.response.status === 404 || error.response.status === 500) {
+        if (error.response?.status === 404 || error.response?.status === 500) {
             console.log('Datos ya registrados en el sistema, no se puede repetir');
         } else {
-            console.log('Ocurrió un error al eliminar el paciente:', error);
+            console.log('Ocurrió un error al registrar el diagnóstico:', error);
         }
         return false;
     }
@@ -99,20 +95,14 @@ export async function diagnostico(_id: String): Promise<boolean> {
 
 export async function guardarReceta(_id: String): Promise<boolean> {
     try {
-        const url = `http://localhost:3000/receta/${_id}`;
-        await axios.get(url);
+        await axios.get(`/receta/${_id}`);
         return true;
     } catch (error) {
-        if (error.response.status === 404 || error.response.status === 500) {
+        if (error.response?.status === 404 || error.response?.status === 500) {
             console.log('Datos ya registrados en el sistema, no se puede repetir');
         } else {
-            console.log('Ocurrió un error al eliminar el paciente:', error);
+            console.log('Ocurrió un error al guardar la receta:', error);
         }
         return false;
     }
 }
-
-
-
-
-
