@@ -1,4 +1,4 @@
-import axios from './axios';
+import axios from '../model/axios.js'; 
 
 
 export const registerRequest  = user => axios.post(`/doctors`, user);
